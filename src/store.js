@@ -8,20 +8,20 @@ const authModule = {
   strict: process.env.NODE_ENV !== "production",
   namespaced: true,
   state: {
-    username: "",
+    email: "",
     isLoggedIn: false
   },
   getters: {
-    username: state => state.username,
+    email: state => state.email,
     isLoggedIn: state => state.isLoggedIn
   },
   mutations: {
     set(state, payload) {
-      state.username = payload.user.username;
+      state.email = payload.user.email;
       state.isLoggedIn = true;
     },
     clear(state) {
-      state.username = "";
+      state.email = "";
       state.isLoggedIn = false;
     }
   },
@@ -32,7 +32,7 @@ const authModule = {
     login(context, payload) {
       return api
         .post("/auth/jwt/create/", {
-          username: payload.username,
+          email: payload.email,
           password: payload.password
         })
         .then(response => {

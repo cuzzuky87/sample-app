@@ -4,16 +4,12 @@
       <v-form ref="LoginForm" v-model="valid" :lazy-validation="lazy">
         <v-text-field
           v-model="model.email"
-          :counter="128"
-          :rules="emailRules"
           label="E-mail"
           required
         ></v-text-field>
 
         <v-text-field
           v-model="model.password"
-          :counter="32"
-          :rules="passwordRules"
           label="Password"
           type="password"
           required
@@ -29,18 +25,18 @@ export default {
   data: () => ({
     loading: false,
     emailRules: [
-      v => !!v || "入力が必須の項目です",
-      v => (v && v.length <= 32) || "32文字以内で入力してください",
-      v =>
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-          v
-        ) || "メールアドレスの形式が不正です"
+      // v => !!v || "入力が必須の項目です",
+      // v => (v && v.length <= 32) || "32文字以内で入力してください",
+      // v =>
+      //   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      //     v
+      //   ) || "メールアドレスの形式が不正です"
     ],
     passwordRules: [
-      v => !!v || "入力が必須の項目です",
-      v =>
-        (v && v.length > 8 && v.length <= 32) ||
-        "パスワードは8桁以上32桁以内で入力してください"
+      // v => !!v || "入力が必須の項目です",
+      // v =>
+      //   (v && v.length > 8 && v.length <= 32) ||
+      //   "パスワードは8桁以上32桁以内で入力してください"
     ],
     model: {
       email: "",
@@ -49,9 +45,20 @@ export default {
   }),
 
   methods: {
-    login() {
+    login: function() {
       if (this.$refs.LoginForm.validate()) {
-        this.loading = true;
+        this.$store
+          .dispatch("auth/login", {
+            email: this.model.email,
+            password: this.model.password
+          })
+          .then(() => {
+            this.$store.dispatch("message/setInfoMessage", {
+              message: "ログインしました"
+            });
+            const next = this.$route.query.next || "/";
+            this.$router.replace(next);
+          });
       }
     }
   }

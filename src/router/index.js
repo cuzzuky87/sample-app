@@ -10,12 +10,17 @@ const routes = [
   {
     path: "/",
     name: "homepage",
-    component: HomePage
+    component: HomePage,
+    meta: { requiresAuth: true }
   },
   {
     path: "/login",
     name: "loginpage",
     component: LoginPage
+  },
+  {
+    path: "*",
+    redirect: "/"
   }
 ];
 
