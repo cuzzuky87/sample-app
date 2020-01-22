@@ -15,7 +15,7 @@ api.interceptors.request.use(
     store.dispatch("message/clearMessages");
     const token = localStorage.getItem("access");
     if (token) {
-      config.headers.Authorization = "Bearer " + token;
+      config.headers.Authorization = "JWT " + token;
       return config;
     }
     return config;

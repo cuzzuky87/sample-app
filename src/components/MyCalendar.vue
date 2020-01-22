@@ -10,7 +10,7 @@
           <v-icon small>mdi-chevron-right</v-icon>
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn outlined class="mr-6">
+        <v-btn class="mr-6">
           add Events
         </v-btn>
       </v-toolbar>
