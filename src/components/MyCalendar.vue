@@ -31,10 +31,36 @@
 </template>
 
 <script>
+import api from "../store.js";
+
 export default {
-  data: () => ({}),
+  data: () => ({
+    today: new Date().toISOString().substr(0, 10),
+    forcus: new Date().toISOString().substr(0, 10),
+    name: null,
+    details: null,
+    start: null,
+    end: null,
+    color: "#1976D2",
+    currentlyEditing: null,
+    selectedEvent: {},
+    selectedElement: null,
+    selectedOpen: false,
+    events: [],
+    dialog: false
+  }),
   mounted() {
     this.$refs.mycalendar.scrollToTime("09:00");
+    this.getEvents();
+  },
+  computed: {},
+  methods: {
+    getEvents() {
+      api({
+        method: "get",
+        url: "events"
+      });
+    }
   }
 };
 </script>
