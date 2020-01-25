@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import api from "../store.js";
+import api from "../store";
 
 export default {
   data: () => ({
@@ -47,20 +47,16 @@ export default {
     selectedElement: null,
     selectedOpen: false,
     events: [],
-    dialog: false
+    dialog: false,
+    info: null
   }),
   mounted() {
-    this.$refs.mycalendar.scrollToTime("09:00");
-    this.getEvents();
+    api({
+      method: "get",
+      url: "events/"
+    }).then(response => (this.info = response));
   },
   computed: {},
-  methods: {
-    getEvents() {
-      api({
-        method: "get",
-        url: "events"
-      });
-    }
-  }
+  methods: {}
 };
 </script>

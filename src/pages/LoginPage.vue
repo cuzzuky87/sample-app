@@ -1,7 +1,7 @@
 <template>
   <v-card outlined>
     <v-card-text>
-      <v-form ref="LoginForm" v-model="valid" :lazy-validation="lazy">
+      <v-form ref="LoginForm">
         <v-text-field
           v-model="model.email"
           label="E-mail"
