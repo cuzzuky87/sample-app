@@ -16,47 +16,78 @@
       </v-toolbar>
     </v-sheet>
     <v-sheet>
-      <v-calendar
-        ref="mycalendar"
-        v-model="focus"
-        color="primary"
-        :events="events"
-        :event-color="getEventColor"
-        :now="today"
-        type="week"
-      >
+      <v-calendar ref="mycalendar" :value="today" color="primary" type="week">
+        <!-- the events at the top (all-day) -->
+        <template v-slot:dayHeader="{ date }">
+          <template v-for="event in eventsMap[date]">
+            <!-- all day events don't have time -->
+            <div
+              v-if="!event.time"
+              :key="event.title"
+              class="my-event"
+              @click="open(event)"
+              v-html="event.title"
+            ></div>
+          </template>
+        </template>
+        <!-- the events at the bottom (timed) -->
+        <template v-slot:dayBody="{ date, timeToY, minutesToPixels }">
+          <template v-for="event in eventsMap[date]">
+            <!-- timed events -->
+            <div
+              v-if="event.time"
+              :key="event.title"
+              :style="{
+                top: timeToY(event.time) + 'px',
+                height: minutesToPixels(event.duration) + 'px'
+              }"
+              class="my-event with-time"
+              @click="open(event)"
+              v-html="event.title"
+            ></div>
+          </template>
+        </template>
       </v-calendar>
     </v-sheet>
   </div>
 </template>
 
 <script>
-import api from "../store";
-
 export default {
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
-    forcus: new Date().toISOString().substr(0, 10),
-    name: null,
-    details: null,
-    start: null,
-    end: null,
-    color: "#1976D2",
-    currentlyEditing: null,
-    selectedEvent: {},
-    selectedElement: null,
-    selectedOpen: false,
-    events: [],
-    dialog: false,
-    info: null
+    now: new Date().toISOString().substr(0, 10),
+    events: [
+      {
+        title: "Weekly Meeting",
+        date: "2019-01-26",
+        time: "09:00",
+        duration: 45
+      },
+      {
+        title: "Thomas' Birthday",
+        date: "2019-01-27"
+      },
+      {
+        title: "Mash Potatoes",
+        date: "2019-01-28",
+        time: "12:30",
+        duration: 180
+      }
+    ]
   }),
-  mounted() {
-    api({
-      method: "get",
-      url: "events/"
-    }).then(response => (this.info = response));
+  computed: {
+    eventsMap() {
+      const map = {};
+      this.events.forEach(e => (map[e.data] = map[e.date] || []).push(e));
+      return map;
+    }
   },
-  computed: {},
-  methods: {}
+  mounted: {},
+  methods: {
+    open(event) {
+      alert(event.title);
+    }
+  }
 };
 </script>
