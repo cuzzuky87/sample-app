@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import api from "../store";
+
 export default {
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
@@ -83,10 +85,24 @@ export default {
       return map;
     }
   },
-  mounted: {},
+  mounted() {
+    this.getEvents();
+  },
   methods: {
     open(event) {
       alert(event.title);
+    },
+    getEvents: function() {
+      const fetchedEvents = [];
+      api({
+        method: "get",
+        url: "events/"
+      })
+        .then(res => {
+          res.data.forEach(e => fetchedEvents.push(e));
+          this.events = fetchedEvents;
+        })
+        .catch(alert("error"));
     }
   }
 };
