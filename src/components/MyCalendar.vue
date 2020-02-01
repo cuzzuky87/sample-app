@@ -1,47 +1,68 @@
+<template>
+  <v-row>
+    <v-col>
+      <v-sheet height="400">
+        <v-calendar
+          ref="calendar"
+          :now="today"
+          :value="today"
+          :events="events"
+          color="primary"
+          type="week"
+        ></v-calendar>
+      </v-sheet>
+    </v-col>
+  </v-row>
+</template>
+
+<style scoped>
+.my-event {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 2px;
+  background-color: #1867c0;
+  color: #ffffff;
+  border: 1px solid #1867c0;
+  font-size: 12px;
+  padding: 3px;
+  cursor: pointer;
+  margin-bottom: 1px;
+  left: 4px;
+  margin-right: 8px;
+  position: relative;
+}
+
+.my-event.with-time {
+  position: absolute;
+  right: 4px;
+  margin-right: 0px;
+}
+</style>
+
 <script>
-//export default {
-//  data: () => ({
-//    events: [],
-//    calendar_settings: {
-//      style: "material_design",
-//      view_type: "week",
-//      cell_height: 15,
-//      scrollToNow: false,
-//      current_day: new Date(),
-//      read_only: false,
-//      day_starts_at: 8,
-//      day_ends_at: 22,
-//      overlap: false,
-//      hide_dates: [],
-//      hide_days: [],
-//      past_event_creation: false
-//    }
-//  }),
-//  mounted() {
-//    this.getEvents();
-//  },
-//  methods: {
-//    getEvents() {
-//      const events = [];
-//      fetch("http://127.0.0.1/api/v1/events/")
-//        .then(res => {
-//          if (res.ok) {
-//            return res.json();
-//          } else {
-//            console.log("ng");
-//          }
-//        })
-//        .then(res => {
-//          res.forEach(e => {
-//            events.push;
-//          });
-//        })
-//        .catch(err => console.log(err));
-//
-//      this.events = events;
-//    }
-//  }
-//};
-//
+export default {
+  data: () => ({
+    today: "2019-01-08",
+    events: [
+      {
+        name: "Weekly Meeting",
+        start: "2019-01-07 09:00",
+        end: "2019-01-07 10:00"
+      },
+      {
+        name: "Thomas' Birthday",
+        start: "2019-01-10"
+      },
+      {
+        name: "Mash Potatoes",
+        start: "2019-01-09 12:30",
+        end: "2019-01-09 15:30"
+      }
+    ]
+  }),
+  mounted() {
+    this.$refs.calendar.scrollToTime("08:00");
+  }
+};
 </script>
-//
