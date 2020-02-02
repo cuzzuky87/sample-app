@@ -43,7 +43,7 @@
 <script>
 export default {
   data: () => ({
-    today: "2019-01-08",
+    today: "2020-02-03",
     events: [
       {
         name: "Weekly Meeting",
@@ -78,10 +78,16 @@ export default {
         })
         .then(res => {
           res.forEach(e => {
-            events.push(e);
+            console.log(e.start_at.substr(0, 16));
+            events.push({
+              name: e.title,
+              start: e.start_at.substr(0, 16),
+              end: e.end_at.substr(0, 16)
+            });
           });
         })
         .catch(err => console.log("error in post" + err));
+      this.events = events;
     }
   }
 };
