@@ -16,7 +16,35 @@
           :events="events"
           color="primary"
           type="week"
+          @click:event="showEvent"
         ></v-calendar>
+        <v-menu
+          v-model="selectedOpen"
+          :close-on-content-click="false"
+          :activator="selectedElement"
+          offset-x
+        >
+          <v-card color="grey lighten-4" min-width="350px" flat>
+            <v-toolbar :color="primary">
+              <v-btn icon> <v-icon>mdi-pencil</v-icon></v-btn>
+              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn icon> <v-icon>mdi-dots-vertical</v-icon></v-btn></v-toolbar
+            >
+            <v-card-text
+              ><span v-html="selectedEvent.description"></span>
+            </v-card-text>
+            <v-card-text
+              ><span v-html="selectedEvent.start"></span><br />
+              <span v-html="selectedEvent.end"></span
+            ></v-card-text>
+            <v-card-actions
+              ><v-btn text color="secondary" @click="selectedOpen = false"
+                >Cancel</v-btn
+              ></v-card-actions
+            ></v-card
+          ></v-menu
+        >
       </v-sheet>
     </v-col>
   </v-row>
@@ -52,22 +80,10 @@ export default {
   data: () => ({
     today: "2020-02-03",
     forcus: "2020-02-03",
-    events: [
-      {
-        name: "Weekly Meeting",
-        start: "2019-01-07 09:00",
-        end: "2019-01-07 10:00"
-      },
-      {
-        name: "Thomas' Birthday",
-        start: "2019-01-10"
-      },
-      {
-        name: "Mash Potatoes",
-        start: "2019-01-09 12:30",
-        end: "2019-01-09 15:30"
-      }
-    ]
+    events: [],
+    selectedEvent: {},
+    selectedElement: null,
+    selectedOpen: false
   }),
   mounted() {
     this.$refs.calendar.scrollToTime("08:00");
@@ -110,6 +126,22 @@ export default {
     },
     next() {
       this.$refs.calendar.next();
+    },
+    showEvent({ nativeEvent, event }) {
+      const open = () => {
+        this.selectedEvent = event;
+        this.selectedElement = nativeEvent.target;
+        setTimeout(() => (this.selectedOpen = true), 10);
+      };
+
+      if (this.selectedOpen) {
+        this.selectedOpen = false;
+        setTimeout(open, 10);
+      } else {
+        open();
+      }
+
+      nativeEvent.stopPropagation();
     }
   }
 };
