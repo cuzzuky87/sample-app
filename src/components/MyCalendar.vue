@@ -25,14 +25,16 @@
         >
           <v-card color="grey lighten-4" min-width="350px" flat>
             <v-toolbar :color="primary">
-              <v-btn icon> <v-icon>mdi-pencil</v-icon></v-btn>
+              <v-btn icon @click="editing = !editing">
+                <v-icon v-if="!editing">mdi-pencil</v-icon>
+                <v-icon v-else>mdi-check-bold</v-icon></v-btn
+              >
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
               <v-btn icon> <v-icon>mdi-dots-vertical</v-icon></v-btn></v-toolbar
             >
             <v-card-text
               ><span v-html="selectedEvent.description"></span><br />
-              <span v-html="selectedEvent.userId"></span>
             </v-card-text>
             <v-card-text
               ><span v-html="selectedEvent.start"></span><br />
@@ -83,7 +85,8 @@ export default {
     events: [],
     selectedEvent: {},
     selectedElement: null,
-    selectedOpen: false
+    selectedOpen: false,
+    editing: true
   }),
   mounted() {
     this.$refs.calendar.scrollToTime("08:00");
