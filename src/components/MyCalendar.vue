@@ -1,9 +1,16 @@
 <template>
   <v-row>
     <v-col>
-      <v-sheet height="400">
+      <v-btn fab text small color="grey darken-2" @click="prev">
+        <v-icon small>mdi-chevron-left</v-icon>
+      </v-btn>
+      <v-btn fab text small color="grey darken-2" @click="next">
+        <v-icon small>mdi-chevron-right</v-icon>
+      </v-btn>
+      <v-sheet height="700">
         <v-calendar
           ref="calendar"
+          v-model="forcus"
           :now="today"
           :value="today"
           :events="events"
@@ -44,6 +51,7 @@
 export default {
   data: () => ({
     today: "2020-02-03",
+    forcus: "2020-02-03",
     events: [
       {
         name: "Weekly Meeting",
@@ -78,9 +86,17 @@ export default {
         })
         .then(res => {
           res.forEach(e => {
-            console.log(e.start_at.substr(0, 16));
+            const userId = e.user.id;
+            const userDisplayName = e.user.display_name;
+            const tempUser = {
+              id: userId,
+              displayName: userDisplayName
+            };
             events.push({
+              id: e.id,
               name: e.title,
+              description: e.description,
+              user: tempUser,
               start: e.start_at.substr(0, 16),
               end: e.end_at.substr(0, 16)
             });
@@ -88,6 +104,12 @@ export default {
         })
         .catch(err => console.log("error in post" + err));
       this.events = events;
+    },
+    prev() {
+      this.$refs.calendar.prev();
+    },
+    next() {
+      this.$refs.calendar.next();
     }
   }
 };
