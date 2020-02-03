@@ -14,7 +14,6 @@
           :now="today"
           :value="today"
           :events="events"
-          color="primary"
           type="week"
           @click:event="showEvent"
         ></v-calendar>
@@ -32,7 +31,8 @@
               <v-btn icon> <v-icon>mdi-dots-vertical</v-icon></v-btn></v-toolbar
             >
             <v-card-text
-              ><span v-html="selectedEvent.description"></span>
+              ><span v-html="selectedEvent.description"></span><br />
+              <span v-html="selectedEvent.userId"></span>
             </v-card-text>
             <v-card-text
               ><span v-html="selectedEvent.start"></span><br />
@@ -102,17 +102,12 @@ export default {
         })
         .then(res => {
           res.forEach(e => {
-            const userId = e.user.id;
-            const userDisplayName = e.user.display_name;
-            const tempUser = {
-              id: userId,
-              displayName: userDisplayName
-            };
             events.push({
               id: e.id,
               name: e.title,
               description: e.description,
-              user: tempUser,
+              userId: e.user.id,
+              userName: e.user.display_name,
               start: e.start_at.substr(0, 16),
               end: e.end_at.substr(0, 16)
             });
