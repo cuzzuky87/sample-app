@@ -24,29 +24,51 @@
           offset-x
         >
           <v-card color="grey lighten-4" min-width="350px" flat>
-            <v-toolbar :color="primary">
-              <v-btn icon @click="editing = !editing">
-                <v-icon v-if="!editing">mdi-pencil</v-icon>
-                <v-icon v-else>mdi-check-bold</v-icon></v-btn
-              >
-              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-btn icon> <v-icon>mdi-dots-vertical</v-icon></v-btn></v-toolbar
-            >
-            <v-card-text
-              ><span v-html="selectedEvent.description"></span><br />
-            </v-card-text>
-            <v-card-text
-              ><span v-html="selectedEvent.start"></span><br />
-              <span v-html="selectedEvent.end"></span
-            ></v-card-text>
-            <v-card-actions
-              ><v-btn text color="secondary" @click="selectedOpen = false"
-                >Cancel</v-btn
-              ></v-card-actions
-            ></v-card
-          ></v-menu
-        >
+            <form id="eventInfo">
+              <v-toolbar :color="primary">
+                <v-btn icon @click="editing = !editing">
+                  <v-icon v-if="!editing">mdi-pencil</v-icon>
+                  <v-icon v-else>mdi-check-bold</v-icon></v-btn
+                >
+                <v-toolbar-title
+                  v-if="!editing"
+                  v-html="selectedEvent.name"
+                  @dblclick="editing = !editing"
+                ></v-toolbar-title>
+                <input
+                  type="text"
+                  id="eventTitle"
+                  name="eventTitle"
+                  v-else
+                  v-model="selectedEvent.name"
+                  class="form-control"
+                />
+                <v-spacer></v-spacer>
+                <v-btn icon> <v-icon>mdi-dots-vertical</v-icon></v-btn>
+              </v-toolbar>
+              <v-card-text>
+                <span v-if="!editing" v-html="selectedEvent.description"></span>
+                <input
+                  type="text"
+                  id="eventDescription"
+                  name="eventDescription"
+                  v-else
+                  v-model="selectedEvent.description"
+                  class="form-control"
+                />
+              </v-card-text>
+              <v-card-text>
+                <span v-html="selectedEvent.start"></span>
+                <span v-html="selectedEvent.end"></span>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn text color="secondary" @click="selectedOpen = false">
+                  Cancel</v-btn
+                >
+              </v-card-actions>
+            </form>
+          </v-card>
+        </v-menu>
       </v-sheet>
     </v-col>
   </v-row>
@@ -74,6 +96,10 @@
   position: absolute;
   right: 4px;
   margin-right: 0px;
+}
+.form-control {
+  border: 1px solid #000;
+  border-radius: 5px;
 }
 </style>
 
@@ -129,6 +155,7 @@ export default {
       const open = () => {
         this.selectedEvent = event;
         this.selectedElement = nativeEvent.target;
+        this.editing = false;
         setTimeout(() => (this.selectedOpen = true), 10);
       };
 
