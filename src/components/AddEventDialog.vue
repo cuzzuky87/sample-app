@@ -1,9 +1,6 @@
 <template>
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
-      <template v-slot:activator="{ on }">
-        <v-btn color="red" @click.stop="dialog = true">Add Event</v-btn>
-      </template>
       <v-card>
         <v-card-title>
           <span class="headline">Input Event Info</span>
@@ -32,6 +29,8 @@
                 ></v-text-field
               ></v-col>
             </v-row>
+            <v-btn @click="close()">Cancel</v-btn>
+            <v-btn></v-btn>
           </v-container>
         </v-card-text>
       </v-card>
@@ -40,5 +39,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      dialog: false
+    };
+  },
+  methods: {
+    open() {
+      this.dialog = true;
+    },
+    close() {
+      this.dialog = false;
+    }
+  }
+};
 </script>

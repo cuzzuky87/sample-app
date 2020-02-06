@@ -10,8 +10,9 @@
             <v-icon small>mdi-chevron-right</v-icon>
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="red" @click.stop="dialog = true">Add Events</v-btn>
-          <AddEventDialog :dialog="dialog" />
+          <v-btn color="red" slot="activator" @click="showAddEventDialog()"
+            >Add Events</v-btn
+          >
         </v-row>
       </v-sheet>
       <v-sheet height="700">
@@ -103,6 +104,7 @@
           </v-card>
         </v-menu>
       </v-sheet>
+      <AddEventDialog ref="dialog" />
     </v-col>
   </v-row>
 </template>
@@ -206,6 +208,9 @@ export default {
       }
 
       nativeEvent.stopPropagation();
+    },
+    showAddEventDialog() {
+      this.$refs.dialog.open();
     }
   }
 };
