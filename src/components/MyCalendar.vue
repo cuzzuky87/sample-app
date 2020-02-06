@@ -1,12 +1,19 @@
 <template>
   <v-row>
     <v-col>
-      <v-btn fab text small color="grey darken-2" @click="prev">
-        <v-icon small>mdi-chevron-left</v-icon>
-      </v-btn>
-      <v-btn fab text small color="grey darken-2" @click="next">
-        <v-icon small>mdi-chevron-right</v-icon>
-      </v-btn>
+      <v-sheet height="50">
+        <v-row>
+          <v-btn fab text small color="grey darken-2" @click="prev">
+            <v-icon small>mdi-chevron-left</v-icon>
+          </v-btn>
+          <v-btn fab text small color="grey darken-2" @click="next">
+            <v-icon small>mdi-chevron-right</v-icon>
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="red" @click.stop="dialog = true">Add Events</v-btn>
+          <AddEventDialog :dialog="dialog" />
+        </v-row>
+      </v-sheet>
       <v-sheet height="700">
         <v-calendar
           ref="calendar"
@@ -41,25 +48,51 @@
                   name="eventTitle"
                   v-else
                   v-model="selectedEvent.name"
-                  class="form-control"
+                  class="updateform"
                 />
                 <v-spacer></v-spacer>
                 <v-btn icon> <v-icon>mdi-dots-vertical</v-icon></v-btn>
               </v-toolbar>
+              <v-card-text
+                ><label for="">ユーザ：</label
+                ><span v-html="selectedEvent.userName"></span
+              ></v-card-text>
               <v-card-text>
+                <label for="eventDescription"> 詳細 </label><br />
                 <span v-if="!editing" v-html="selectedEvent.description"></span>
                 <input
-                  type="text"
+                  type="textarea"
                   id="eventDescription"
                   name="eventDescription"
                   v-else
                   v-model="selectedEvent.description"
-                  class="form-control"
+                  class="updateform"
                 />
               </v-card-text>
               <v-card-text>
-                <span v-html="selectedEvent.start"></span>
-                <span v-html="selectedEvent.end"></span>
+                <label for="eventStart">開始</label>
+                <span v-if="!editing" v-html="selectedEvent.start"></span>
+                <span v-else
+                  ><input
+                    type="datetime-local"
+                    id="eventStart"
+                    name="eventStart"
+                    v-model="selectedEvent.start"
+                    class="updateform"
+                  />
+                </span>
+              </v-card-text>
+              <v-card-text>
+                <label for="eventEnd">終了</label
+                ><span v-if="!editing" v-html="selectedEvent.end"></span>
+                <span v-else
+                  ><input
+                    type="datetime-local"
+                    id="eventEnd"
+                    name="eventEnd"
+                    v-model="selectedEvent.end"
+                    class="updateform"
+                /></span>
               </v-card-text>
               <v-card-actions>
                 <v-btn text color="secondary" @click="selectedOpen = false">
@@ -97,13 +130,15 @@
   right: 4px;
   margin-right: 0px;
 }
-.form-control {
-  border: 1px solid #000;
-  border-radius: 5px;
+
+.updateform {
+  border-bottom: 1px solid rgb(63, 63, 63);
 }
 </style>
 
 <script>
+import AddEventDialog from "./AddEventDialog";
+
 export default {
   data: () => ({
     today: "2020-02-03",
@@ -112,8 +147,12 @@ export default {
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
-    editing: true
+    editing: true,
+    dialog: false
   }),
+  components: {
+    AddEventDialog
+  },
   mounted() {
     this.$refs.calendar.scrollToTime("08:00");
     this.getEvents();
