@@ -104,7 +104,7 @@
           </v-card>
         </v-menu>
       </v-sheet>
-      <AddEventDialog ref="dialog" />
+      <addEventDialog ref="dialog"></addEventDialog>
     </v-col>
   </v-row>
 </template>
@@ -153,7 +153,7 @@ export default {
     dialog: false
   }),
   components: {
-    AddEventDialog
+    addEventDialog: AddEventDialog
   },
   mounted() {
     this.$refs.calendar.scrollToTime("08:00");
