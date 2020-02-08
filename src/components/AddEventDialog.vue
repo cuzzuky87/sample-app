@@ -74,8 +74,8 @@ export default {
       const event = {
         title: this.eventTitle,
         description: this.eventDescription,
-        start: this.eventStart,
-        end: this.eventEnd
+        start_at: this.eventStart,
+        end_at: this.eventEnd
       };
       api
         .post("events/", event)
