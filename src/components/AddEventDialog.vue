@@ -9,18 +9,10 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field
-                  v-model="eventTitle"
-                  label="title"
-                  required
-                ></v-text-field>
+                <v-text-field v-model="eventTitle" label="title" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-textarea
-                  v-model="eventDescription"
-                  label="description"
-                  row-height="24px"
-                ></v-textarea>
+                <v-textarea v-model="eventDescription" label="description" row-height="24px"></v-textarea>
               </v-col>
               <v-col cols="12">
                 <v-text-field
@@ -31,15 +23,15 @@
                   required
                 ></v-text-field>
               </v-col>
-              <v-col
-                ><v-text-field
+              <v-col>
+                <v-text-field
                   type="datetime-local"
                   label="end"
                   step="900"
                   v-model="eventEnd"
                   required
-                ></v-text-field
-              ></v-col>
+                ></v-text-field>
+              </v-col>
             </v-row>
             <v-btn small @click="submitEvent()">Done</v-btn>
             <v-btn small @click="close()">Cancel</v-btn>
@@ -81,6 +73,11 @@ export default {
         .post("events/", event)
         .then(res => console.log(res))
         .catch(err => console.log(err));
+      this.eventTitle = "";
+      this.eventDescription = "";
+      this.eventStart = null;
+      this.eventEnd = null;
+
       this.dialog = false;
     }
   }
