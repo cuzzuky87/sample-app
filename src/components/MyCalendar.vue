@@ -3,12 +3,14 @@
     <v-col>
       <v-sheet height="50">
         <v-row>
+          <v-btn @click="setToday()">Today</v-btn>
           <v-btn fab text small color="grey darken-2" @click="prev">
             <v-icon small>mdi-chevron-left</v-icon>
           </v-btn>
           <v-btn fab text small color="grey darken-2" @click="next">
             <v-icon small>mdi-chevron-right</v-icon>
           </v-btn>
+          <v-toolbar-title>{{ title }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn color="red" slot="activator" @click="showAddEventDialog()">Add Events</v-btn>
         </v-row>
@@ -22,6 +24,7 @@
           :events="events"
           type="week"
           @click:event="showEvent"
+          @change="updateRange"
         ></v-calendar>
         <v-menu
           v-model="selectedOpen"
@@ -151,16 +154,47 @@ export default {
     selectedElement: null,
     selectedOpen: false,
     editing: true,
-    dialog: false
+    dialog: false,
+    start: null,
+    end: null
   }),
   components: {
     addEventDialog: AddEventDialog
+  },
+  computed: {
+    title() {
+      const { start, end } = this;
+      if (!start || !end) {
+        return "";
+      }
+
+      const startMonth = this.monthFormatter(start);
+      const endMonth = this.monthFormatter(end);
+      const suffixMonth = startMonth === endMonth ? "" : endMonth;
+      const startYear = start.year;
+      const endYear = end.year;
+      const suffixYear = startYear === endYear ? "" : endYear;
+
+      const startDay = start.day;
+      const endDay = end.day;
+
+      return `${startMonth}月 ${startDay}日 ${startYear}年 - ${suffixMonth}月 ${endDay}日 ${suffixYear}年`;
+    },
+    monthFormatter() {
+      return this.$refs.calendar.getFormatter({
+        timeZone: "UTC+09:00",
+        month: "long"
+      });
+    }
   },
   mounted() {
     this.$refs.calendar.scrollToTime("08:00");
     this.getEvents();
   },
   methods: {
+    setToday() {
+      this.forcus = this.today;
+    },
     getEvents() {
       const events = [];
       fetch("http://127.0.0.1:8000/api/v1/events/")
