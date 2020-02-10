@@ -98,7 +98,8 @@
                 </span>
               </v-card-text>
               <v-card-actions>
-                <v-btn text color="secondary" @click="selectedOpen = false">Cancel</v-btn>
+                <v-btn v-if="editing">Done</v-btn>
+                <v-btn text color="secondary" @click="selectedOpen=false">Cancel</v-btn>
               </v-card-actions>
             </form>
           </v-card>
