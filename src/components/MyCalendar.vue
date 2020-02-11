@@ -24,7 +24,6 @@
           :events="events"
           type="week"
           @click:event="showEvent"
-          @change="updateRange"
         ></v-calendar>
         <v-menu
           v-model="selectedOpen"
@@ -144,6 +143,7 @@
 
 <script>
 import AddEventDialog from "./AddEventDialog";
+import api from "../services/api";
 
 export default {
   data: () => ({
@@ -188,6 +188,7 @@ export default {
     }
   },
   mounted() {
+    this.$refs.calendar.checkChange();
     this.$refs.calendar.scrollToTime("08:00");
     this.getEvents();
   },
@@ -197,16 +198,35 @@ export default {
     },
     getEvents() {
       const events = [];
-      fetch("http://127.0.0.1:8000/api/v1/events/")
+      // fetch("http://127.0.0.1:8000/api/v1/events/")
+      //   .then(res => {
+      //     if (res.ok) {
+      //       return res.json();
+      //     } else {
+      //       console.log("ng");
+      //     }
+      //   })
+      //   .then(res => {
+      //     res.forEach(e => {
+      //       events.push({
+      //         id: e.id,
+      //         name: e.title,
+      //         description: e.description,
+      //         userId: e.user.id,
+      //         userName: e.user.display_name,
+      //         start: e.start_at.substr(0, 16),
+      //         end: e.end_at.substr(0, 16)
+      //       });
+      //     });
+      //   })
+      //   .catch(err => console.log("error in post" + err));
+      api({
+        method: "get",
+        url: "/events/"
+      })
         .then(res => {
-          if (res.ok) {
-            return res.json();
-          } else {
-            console.log("ng");
-          }
-        })
-        .then(res => {
-          res.forEach(e => {
+          console.log(res.data);
+          res.data.forEach(e => {
             events.push({
               id: e.id,
               name: e.title,
@@ -218,7 +238,7 @@ export default {
             });
           });
         })
-        .catch(err => console.log("error in post" + err));
+        .catch(err => console.log(err));
       this.events = events;
     },
     prev() {
