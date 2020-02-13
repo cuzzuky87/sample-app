@@ -35,7 +35,10 @@
             <form id="eventInfo">
               <v-toolbar :color="primary">
                 <v-btn icon @click="editing = !editing">
-                  <v-icon v-if="!editing">mdi-pencil</v-icon>
+                  <v-icon
+                    v-if="!editing"
+                    :disabled="!(selectedEvent.userId === this.$store.getters.userId)"
+                  >mdi-pencil</v-icon>
                   <v-icon v-else>mdi-check-bold</v-icon>
                 </v-btn>
                 <v-toolbar-title
@@ -204,6 +207,7 @@ export default {
       })
         .then(res => {
           console.log(res.data);
+          console.log(res);
           res.data.forEach(e => {
             events.push({
               id: e.id,
@@ -239,7 +243,6 @@ export default {
       } else {
         open();
       }
-
       nativeEvent.stopPropagation();
     },
     showAddEventDialog() {

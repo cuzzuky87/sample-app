@@ -9,15 +9,18 @@ const authModule = {
   namespaced: true,
   state: {
     email: "",
+    userId: "",
     isLoggedIn: false
   },
   getters: {
     email: state => state.email,
+    userId: state => state.userId,
     isLoggedIn: state => state.isLoggedIn
   },
   mutations: {
     set(state, payload) {
       state.email = payload.user.email;
+      state.userId = payload.user.id;
       state.isLoggedIn = true;
     },
     clear(state) {
@@ -36,6 +39,7 @@ const authModule = {
           password: payload.password
         })
         .then(response => {
+          console.log(response);
           localStorage.setItem("access", response.data.access);
           return context.dispatch("reload").then(user => user);
         });
