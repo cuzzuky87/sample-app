@@ -34,11 +34,8 @@
           <v-card color="grey lighten-4" min-width="350px" flat>
             <form id="eventInfo">
               <v-toolbar :color="primary">
-                <v-btn icon @click="editing = !editing">
-                  <v-icon
-                    v-if="!editing"
-                    :disabled="!(selectedEvent.userId === this.$store.getters.userId)"
-                  >mdi-pencil</v-icon>
+                <v-btn icon @click="editing = !editing" :disabled="!editable">
+                  <v-icon v-if="!editing" @click="editEvent()">mdi-pencil</v-icon>
                   <v-icon v-else>mdi-check-bold</v-icon>
                 </v-btn>
                 <v-toolbar-title
@@ -156,7 +153,8 @@ export default {
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
-    editing: true,
+    editing: false,
+    editable: false,
     dialog: false,
     start: null,
     end: null
@@ -206,8 +204,6 @@ export default {
         url: "/events/"
       })
         .then(res => {
-          console.log(res.data);
-          console.log(res);
           res.data.forEach(e => {
             events.push({
               id: e.id,
@@ -234,6 +230,7 @@ export default {
         this.selectedEvent = event;
         this.selectedElement = nativeEvent.target;
         this.editing = false;
+        this.canEdit();
         setTimeout(() => (this.selectedOpen = true), 10);
       };
 
@@ -247,6 +244,13 @@ export default {
     },
     showAddEventDialog() {
       this.$refs.dialog.open();
+    },
+    canEdit() {
+      console.log(this.$store.getters["auth/userId"]);
+      console.log(this.selectedEvent.userId);
+      this.$store.getters["auth/userId"] === this.selectedEvent.userId
+        ? (this.editable = true)
+        : (this.editable = false);
     }
   }
 };
