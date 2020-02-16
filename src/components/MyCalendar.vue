@@ -35,7 +35,7 @@
             <form id="eventInfo">
               <v-toolbar :color="primary">
                 <v-btn icon @click="editing = !editing" :disabled="!editable">
-                  <v-icon v-if="!editing" @click="editEvent()">mdi-pencil</v-icon>
+                  <v-icon v-if="!editing">mdi-pencil</v-icon>
                   <v-icon v-else>mdi-check-bold</v-icon>
                 </v-btn>
                 <v-toolbar-title
@@ -100,7 +100,7 @@
                 </span>
               </v-card-text>
               <v-card-actions>
-                <v-btn v-if="editing">Done</v-btn>
+                <v-btn v-if="editing" @click="doneEdit()">Done</v-btn>
                 <v-btn text color="secondary" @click="selectedOpen=false">Cancel</v-btn>
               </v-card-actions>
             </form>
@@ -251,6 +251,18 @@ export default {
       this.$store.getters["auth/userId"] === this.selectedEvent.userId
         ? (this.editable = true)
         : (this.editable = false);
+    },
+    doneEdit() {
+      const editEvent = {
+        title: this.selectedEvent.name,
+        description: this.selectedEvent.description,
+        start_at: this.selectedEvent.start,
+        end_at: this.selectedEvent.end
+      };
+      api
+        .post(`events/${this.selectedEvent.id}`, editEvent)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
     }
   }
 };
