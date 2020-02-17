@@ -260,9 +260,11 @@ export default {
         end_at: this.selectedEvent.end
       };
       api
-        .post(`events/${this.selectedEvent.id}`, editEvent)
+        .put(`events/${this.selectedEvent.id}/`, editEvent)
         .then(res => console.log(res))
         .catch(err => console.log(err));
+
+      this.editable = false;
     }
   }
 };
