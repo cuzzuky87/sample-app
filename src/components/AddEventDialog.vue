@@ -79,6 +79,8 @@ export default {
       this.eventEnd = null;
 
       this.dialog = false;
+      const vm = this.vm;
+      vm.$forceUpdate();
     }
   }
 };
