@@ -52,7 +52,7 @@
                   class="updateform"
                 />
                 <v-spacer></v-spacer>
-                <v-btn icon>
+                <v-btn icon @click="deleteEvent()">
                   <v-icon>mdi-trash-can-outline</v-icon>
                 </v-btn>
               </v-toolbar>
@@ -265,6 +265,17 @@ export default {
         .catch(err => console.log(err));
 
       this.editable = false;
+    },
+    deleteEvent() {
+      const selectedEvent = this.selectedEvent;
+      const events = this.events;
+      events.filter(v => v.id === selectedEvent.id).shift();
+      api
+        .delete(`events/${this.selectedEvent.id}/`)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+      const vm = this.vm;
+      vm.$forceUpdate();
     }
   }
 };
