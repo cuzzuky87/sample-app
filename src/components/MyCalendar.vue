@@ -107,7 +107,7 @@
           </v-card>
         </v-menu>
       </v-sheet>
-      <addEventDialog ref="dialog"></addEventDialog>
+      <addEventDialog ref="dialog" @update="getEvents"></addEventDialog>
     </v-col>
   </v-row>
 </template>
@@ -269,13 +269,12 @@ export default {
     deleteEvent() {
       const selectedEvent = this.selectedEvent;
       const events = this.events;
-      events.filter(v => v.id === selectedEvent.id).shift();
+      const index = events.indexOf(v => v.id === selectedEvent.id);
       api
         .delete(`events/${this.selectedEvent.id}/`)
-        .then(res => console.log(res))
+        .then(() => events.splice(index, 1))
         .catch(err => console.log(err));
-      const vm = this.vm;
-      vm.$forceUpdate();
+      this.selectedOpen = false;
     }
   }
 };

@@ -55,6 +55,7 @@ export default {
       eventEnd: null
     };
   },
+  props: ["events"],
   methods: {
     open() {
       this.dialog = true;
@@ -79,8 +80,7 @@ export default {
       this.eventEnd = null;
 
       this.dialog = false;
-      const vm = this.vm;
-      vm.$forceUpdate();
+      this.$emit("update");
     }
   }
 };
