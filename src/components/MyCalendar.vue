@@ -1,8 +1,8 @@
 <template>
   <v-row>
     <v-col>
-      <v-sheet height="50">
-        <v-row>
+      <v-sheet height="64">
+        <v-toolbar flat color="white">
           <v-btn @click="setToday()">Today</v-btn>
           <v-btn fab text small color="grey darken-2" @click="prev">
             <v-icon small>mdi-chevron-left</v-icon>
@@ -10,11 +10,11 @@
           <v-btn fab text small color="grey darken-2" @click="next">
             <v-icon small>mdi-chevron-right</v-icon>
           </v-btn>
-          <v-toolbar-title>{{ title }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn color="red" slot="activator" @click="showAddEventDialog()">Add Events</v-btn>
-        </v-row>
+          <v-btn color="red" @click="showAddEventDialog()">Add Events</v-btn>
+        </v-toolbar>
       </v-sheet>
+      <addEventDialog ref="dialog" @update="getEvents"></addEventDialog>
       <v-sheet height="700">
         <v-calendar
           ref="calendar"
@@ -107,7 +107,6 @@
           </v-card>
         </v-menu>
       </v-sheet>
-      <addEventDialog ref="dialog" @update="getEvents"></addEventDialog>
     </v-col>
   </v-row>
 </template>
