@@ -10,6 +10,7 @@
           <v-btn fab text small color="grey darken-2" @click="next">
             <v-icon small>mdi-chevron-right</v-icon>
           </v-btn>
+          <v-toolbar-title>{{ title }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn color="red" @click="showAddEventDialog()">Add Events</v-btn>
         </v-toolbar>
@@ -18,7 +19,7 @@
       <v-sheet height="700">
         <v-calendar
           ref="calendar"
-          v-model="forcus"
+          v-model="focus"
           :now="today"
           :value="today"
           :events="events"
@@ -147,7 +148,7 @@ import api from "../services/api";
 export default {
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
-    forcus: new Date().toISOString().substr(0, 10),
+    focus: "",
     events: [],
     selectedEvent: {},
     selectedElement: null,
@@ -194,7 +195,7 @@ export default {
   },
   methods: {
     setToday() {
-      this.forcus = this.today;
+      this.focus = this.today;
     },
     getEvents() {
       const events = [];
@@ -274,6 +275,10 @@ export default {
         .then(() => events.splice(index, 1))
         .catch(err => console.log(err));
       this.selectedOpen = false;
+    },
+    updateRange({ start, end }) {
+      this.start = start.toISOString().substr(0, 10);
+      this.end = end.toISOString().substr(0, 10);
     }
   }
 };
