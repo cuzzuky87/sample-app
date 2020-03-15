@@ -25,6 +25,7 @@
           :events="events"
           type="week"
           @click:event="showEvent"
+          @change="updateRange"
         ></v-calendar>
         <v-menu
           v-model="selectedOpen"
@@ -169,17 +170,21 @@ export default {
         return "";
       }
 
-      const startMonth = this.monthFormatter(start);
-      const endMonth = this.monthFormatter(end);
-      const suffixMonth = startMonth === endMonth ? "" : endMonth;
-      const startYear = start.year;
-      const endYear = end.year;
+      // const startMonth = this.monthFormatter(start);
+      // const endMonth = this.monthFormatter(end);
+      this.monthFormatter(start);
+      this.monthFormatter(end);
+      const m1 = start.month + "月";
+      const m2 = end.month + "月";
+      const suffixMonth = m1 === m2 ? "" : m2;
+      const startYear = start.year + "年";
+      const endYear = end.year + "年";
       const suffixYear = startYear === endYear ? "" : endYear;
 
-      const startDay = start.day;
-      const endDay = end.day;
+      const startDay = start.day + "日";
+      const endDay = end.day + "日";
 
-      return `${startMonth}月 ${startDay}日 ${startYear}年 - ${suffixMonth}月 ${endDay}日 ${suffixYear}年`;
+      return `${m1} ${startDay} ${startYear} - ${suffixMonth} ${endDay} ${suffixYear}`;
     },
     monthFormatter() {
       return this.$refs.calendar.getFormatter({
@@ -277,8 +282,8 @@ export default {
       this.selectedOpen = false;
     },
     updateRange({ start, end }) {
-      this.start = start.toISOString().substr(0, 10);
-      this.end = end.toISOString().substr(0, 10);
+      this.start = start;
+      this.end = end;
     }
   }
 };
