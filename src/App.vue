@@ -3,6 +3,7 @@
     <v-app>
       <v-app-bar app color="indigo">
         <v-toolbar-title>Calendar</v-toolbar-title>
+        <v-btn v-if="isLoggedIn"></v-btn>
       </v-app-bar>
       <v-content>
         <v-container class="fill-height">
@@ -16,3 +17,16 @@
     </v-app>
   </div>
 </template>
+
+<script>
+export default {
+  data: () => ({
+    isLoggedIn: false
+  }),
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    }
+  }
+};
+</script>
