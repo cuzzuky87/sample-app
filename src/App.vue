@@ -20,12 +20,10 @@
 
 <script>
 export default {
-  data: () => ({
-    isLoggedIn: false
-  }),
+  data: () => ({}),
   computed: {
     isLoggedIn() {
-      return this.$store.getters.isLoggedIn;
+      return this.$store.state.auth.isLoggedIn;
     }
   }
 };
