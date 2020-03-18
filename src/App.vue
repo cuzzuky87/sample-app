@@ -3,7 +3,7 @@
     <v-app>
       <v-app-bar app color="indigo">
         <v-toolbar-title>Calendar</v-toolbar-title>
-        <v-btn v-if="isLoggedIn"></v-btn>
+        <v-btn v-if="isLoggedIn">ログアウト</v-btn>
       </v-app-bar>
       <v-content>
         <v-container class="fill-height">
