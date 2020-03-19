@@ -3,7 +3,12 @@
     <v-app>
       <v-app-bar app color="indigo">
         <v-toolbar-title>Calendar</v-toolbar-title>
-        <v-btn v-if="isLoggedIn">ログアウト</v-btn>
+        <v-spacer></v-spacer>
+
+        <v-btn depressed color="blue" v-if="isLoggedIn" @click="logout()">
+          ログアウト
+          <v-icon>mdi-logout-variant</v-icon>
+        </v-btn>
       </v-app-bar>
       <v-content>
         <v-container class="fill-height">
@@ -24,6 +29,13 @@ export default {
   computed: {
     isLoggedIn() {
       return this.$store.state.auth.isLoggedIn;
+    }
+  },
+  methods: {
+    logout() {
+      console.log(this);
+      this.$store.dispatch("auth/logout");
+      this.$router.replace("/login");
     }
   }
 };

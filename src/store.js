@@ -25,6 +25,7 @@ const authModule = {
     },
     clear(state) {
       state.email = "";
+      state.userId = "";
       state.isLoggedIn = false;
     }
   },
