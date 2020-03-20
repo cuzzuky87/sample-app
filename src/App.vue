@@ -2,12 +2,14 @@
   <div id="app">
     <v-app>
       <v-app-bar app color="indigo">
-        <v-toolbar-title>Calendar</v-toolbar-title>
+        <v-toolbar-title>
+          <span class="white--text test--lighten--5">Calendar</span>
+        </v-toolbar-title>
         <v-spacer></v-spacer>
 
         <v-btn depressed color="blue" v-if="isLoggedIn" @click="logout()">
-          ログアウト
-          <v-icon>mdi-logout-variant</v-icon>
+          <span class="white--text">ログアウト</span>
+          <v-icon color="white">mdi-logout-variant</v-icon>
         </v-btn>
       </v-app-bar>
       <v-content>
