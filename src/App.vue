@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-app>
-      <v-app-bar app color="indigo">
+      <v-app-bar app class="blue darken-3">
         <v-toolbar-title>
           <span class="white--text test--lighten--5">Calendar</span>
         </v-toolbar-title>

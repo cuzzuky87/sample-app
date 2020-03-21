@@ -12,7 +12,7 @@
           </v-btn>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn color="red" @click="showAddEventDialog()">Add Events</v-btn>
+          <v-btn class="white--text blue darken-2" @click="showAddEventDialog()">Add Events</v-btn>
         </v-toolbar>
       </v-sheet>
       <addEventDialog ref="dialog" @update="getEvents"></addEventDialog>
