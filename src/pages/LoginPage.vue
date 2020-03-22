@@ -1,14 +1,18 @@
 <template>
   <v-card outlined elevation="3">
+    <v-toolbar flat class="blue darken-2">
+      <v-toolbar-title class="white--text">ログイン</v-toolbar-title>
+    </v-toolbar>
     <v-card-text>
       <v-form ref="LoginForm">
         <v-text-field v-model="model.email" label="E-mail" required></v-text-field>
         <v-text-field v-model="model.password" label="Password" type="password" required></v-text-field>
       </v-form>
     </v-card-text>
-    <v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
       <v-btn @click="login" :loading="loading">ログイン</v-btn>
-    </v-card-text>
+    </v-card-actions>
   </v-card>
 </template>
 
