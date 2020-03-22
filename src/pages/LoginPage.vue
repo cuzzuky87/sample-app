@@ -1,13 +1,14 @@
 <template>
-  <v-card outlined>
+  <v-card outlined elevation="3">
     <v-card-text>
       <v-form ref="LoginForm">
         <v-text-field v-model="model.email" label="E-mail" required></v-text-field>
-
         <v-text-field v-model="model.password" label="Password" type="password" required></v-text-field>
       </v-form>
     </v-card-text>
-    <v-btn block @click="login" :loading="loading">ログイン</v-btn>
+    <v-card-text>
+      <v-btn @click="login" :loading="loading">ログイン</v-btn>
+    </v-card-text>
   </v-card>
 </template>
 
